@@ -27,3 +27,7 @@
 *.i*86
 *.x86_64
 *.hex
+*.d
+uAmp/Drivers/
+uAmp/MDK-ARM/f0_uAmp Configuration/stm32f0xx_hal_i2c_ex.crf
+uAmp/MDK-ARM/f0_uAmp Configuration/
