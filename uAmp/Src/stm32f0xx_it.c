@@ -1,7 +1,6 @@
 /**
   ******************************************************************************
   * @file    stm32f0xx_it.c
-  * @date    18/02/2015 22:33:53
   * @brief   Interrupt Service Routines.
   ******************************************************************************
   *
@@ -35,11 +34,12 @@
 #include "stm32f0xx_hal.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_it.h"
+
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-/* External variables --------------------------------------------------------*/
 
+/* External variables --------------------------------------------------------*/
 extern I2C_HandleTypeDef hi2c1;
 
 /******************************************************************************/
@@ -60,6 +60,13 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 1 */
 }
+
+/******************************************************************************/
+/* STM32F0xx Peripheral Interrupt Handlers                                    */
+/* Add here the Interrupt Handlers for the used peripherals.                  */
+/* For the available peripheral interrupt handler names,                      */
+/* please refer to the startup file (startup_stm32f0xx.s).                    */
+/******************************************************************************/
 
 /**
 * @brief This function handles I2C1 global interrupt.

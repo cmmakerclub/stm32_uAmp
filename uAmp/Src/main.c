@@ -1,7 +1,6 @@
 /**
   ******************************************************************************
   * File Name          : main.c
-  * Date               : 18/02/2015 22:33:53
   * Description        : Main program body
   ******************************************************************************
   *
@@ -31,7 +30,6 @@
   *
   ******************************************************************************
   */
-
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_hal.h"
 
@@ -43,11 +41,12 @@
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
+
 SPI_HandleTypeDef hspi1;
- 
+
 /* USER CODE BEGIN PV */
 
-float data ;
+float data, raw ;
 
 /* USER CODE END PV */
 
@@ -79,7 +78,8 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	raw = 0;
+	data = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -99,20 +99,25 @@ int main(void)
 
 
 	HAL_Delay(100);
+	
 	ina219_SetCalibration_16V_80mA();
 		
   /* USER CODE END 2 */
 
-  /* USER CODE BEGIN 3 */
   /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
   {
+  /* USER CODE END WHILE */
+
+  /* USER CODE BEGIN 3 */
 		static float data_prev;
 		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_0);
 		
-		HAL_Delay(1);
+		HAL_Delay(5);
+		raw = ina219_getCurrent_mA();
 		data_prev = data;
-		data = 0.99f*data_prev +0.01f*(ina219_getCurrent_mA()-data_prev);
+		data = data_prev +0.01f*(raw-data_prev);
   }
   /* USER CODE END 3 */
 
@@ -146,7 +151,9 @@ void SystemClock_Config(void)
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 
-  __SYSCFG_CLK_ENABLE();
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+
+  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
 }
 
@@ -156,7 +163,7 @@ void MX_I2C1_Init(void)
 
   hi2c1.Instance = I2C1;
   hi2c1.Init.Timing = 0x0000020B;
-  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.OwnAddress1 = 128;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLED;
   hi2c1.Init.OwnAddress2 = 0;
@@ -186,6 +193,8 @@ void MX_SPI1_Init(void)
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLED;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLED;
+  hspi1.Init.CRCPolynomial = 10;
+  hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLED;
   HAL_SPI_Init(&hspi1);
 

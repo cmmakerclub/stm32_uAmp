@@ -1,7 +1,6 @@
 /**
   ******************************************************************************
   * File Name          : stm32f0xx_hal_msp.c
-  * Date               : 18/02/2015 22:33:53
   * Description        : This file provides code for the MSP Initialization 
   *                      and de-Initialization codes.
   ******************************************************************************
@@ -48,6 +47,8 @@ void HAL_MspInit(void)
 
   /* USER CODE END MspInit 0 */
 
+  __SYSCFG_CLK_ENABLE();
+
   /* System interrupt init*/
 /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
@@ -66,8 +67,6 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
   /* USER CODE BEGIN I2C1_MspInit 0 */
 
   /* USER CODE END I2C1_MspInit 0 */
-    /* Peripheral clock enable */
-    __I2C1_CLK_ENABLE();
   
     /**I2C1 GPIO Configuration    
     PA9     ------> I2C1_SCL
@@ -76,11 +75,13 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /* System interrupt init*/
+    /* Peripheral clock enable */
+    __I2C1_CLK_ENABLE();
+  /* Peripheral interrupt init*/
     HAL_NVIC_SetPriority(I2C1_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(I2C1_IRQn);
   /* USER CODE BEGIN I2C1_MspInit 1 */
@@ -110,10 +111,10 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
     /* Peripheral interrupt DeInit*/
     HAL_NVIC_DisableIRQ(I2C1_IRQn);
 
+  }
   /* USER CODE BEGIN I2C1_MspDeInit 1 */
 
   /* USER CODE END I2C1_MspDeInit 1 */
-  }
 
 }
 
@@ -137,7 +138,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF0_SPI1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -166,10 +167,10 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7);
 
+  }
   /* USER CODE BEGIN SPI1_MspDeInit 1 */
 
   /* USER CODE END SPI1_MspDeInit 1 */
-  }
 
 }
 
