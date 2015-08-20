@@ -40,20 +40,9 @@ typedef struct {
 static SSD1306_t SSD1306;
 
 uint8_t TM_SSD1306_Init(void) {
-	/* Init delay */
-	TM_DELAY_Init();
-	
-	/* Init I2C */
-	TM_I2C_Init(SSD1306_I2C, SSD1306_I2C_PINSPACK, 400000);
-	
-	/* Check if LCD connected to I2C */
-	if (!TM_I2C_IsDeviceConnected(SSD1306_I2C, SSD1306_I2C_ADDR)) {
-		/* Return false */
-		return 0;
-	}
 	
 	/* A little delay */
-	Delayms(100);
+	HAL_Delay(100);
 	
 	/* Init LCD */
 	SSD1306_WRITECOMMAND(0xAE); //display off
@@ -70,7 +59,7 @@ uint8_t TM_SSD1306_Init(void) {
 	SSD1306_WRITECOMMAND(0xA6); //--set normal display
 	SSD1306_WRITECOMMAND(0xA8); //--set multiplex ratio(1 to 64)
 	SSD1306_WRITECOMMAND(0x3F); //
-	SSD1306_WRITECOMMAND(0xA4); //0xa4,Output follows RAM content;0xa5,Output ignores RAM content
+	SSD1306_WRITECOMMAND(0xA4); //0xa4,Output follows RAM content;0xa5, Output ignores RAM content
 	SSD1306_WRITECOMMAND(0xD3); //-set display offset
 	SSD1306_WRITECOMMAND(0x00); //-not offset
 	SSD1306_WRITECOMMAND(0xD5); //--set display clock divide ratio/oscillator frequency

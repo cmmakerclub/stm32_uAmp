@@ -74,7 +74,6 @@ extern C {
 @endverbatim
  */
 #include "stm32f0xx_hal.h"
-
 #include "string.h"
 
 /**

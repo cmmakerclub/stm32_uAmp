@@ -1,9 +1,13 @@
 
+
+#include "stm32f0xx_hal.h"
+
  // modified from adafruit
 
-uint16_t ina219_powerDivider_mW;
-uint16_t ina219_currentDivider_mA;
-uint16_t ina219_powerDivider_mW;
+#ifndef LIB_INA219_H
+#define LIB_INA219_H
+
+
 
 
 /*=========================================================================
@@ -90,3 +94,13 @@ uint16_t ina219_powerDivider_mW;
     #define INA219_REG_CALIBRATION                 (0x05)
 /*=========================================================================*/
 
+void ina219_WriteRegister(uint8_t reg, uint16_t *value);
+void ina219_ReadRegister(uint8_t reg, uint16_t *value);
+float ina219_getBusVoltage_V(void);
+float ina219_getShuntVoltage_mV(void);
+float ina219_getCurrent_mA(void); 
+void ina219_SetCalibration_32V_640mA(void);
+void ina219_SetCalibration_32V_320mA(void);
+void ina219_SetCalibration_16V_80mA(void);
+
+#endif

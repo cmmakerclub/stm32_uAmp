@@ -101,9 +101,9 @@ SDA        |PC9          |Serial data line
  */
 
 #include "stm32f0xx_hal.h"
-//#include "tm_stm32f4_i2c.h"
+#include "tm_stm32f4_i2c.h"
 #include "tm_stm32f4_fonts.h"
-//#include "tm_stm32f4_delay.h"
+
 
 #include "stdlib.h"
 #include "string.h"
