@@ -36,6 +36,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "lib_ina219.h"
+#include "ssd1306.h"
 
 /* USER CODE END Includes */
 
@@ -114,7 +115,7 @@ int main(void)
 		static float data_prev;
 		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_0);
 		
-		HAL_Delay(5);
+		HAL_Delay(1);
 		raw = ina219_getCurrent_mA();
 		data_prev = data;
 		data = data_prev +0.01f*(raw-data_prev);
