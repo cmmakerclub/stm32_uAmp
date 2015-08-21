@@ -38,7 +38,8 @@ void ina219_WriteRegister(uint8_t reg, uint16_t *value)
 	uint8_t i2c_temp[2];
 	i2c_temp[0] = *value>>8;
 	i2c_temp[1] = *value;
-	HAL_I2C_Mem_Write(&hi2c1, ina219_i2caddr<<1, (uint16_t)reg, 1, i2c_temp, 2, 1);
+	HAL_I2C_Mem_Write_IT(&hi2c1, ina219_i2caddr<<1, (uint16_t)reg, 1, i2c_temp, 2);
+	HAL_Delay(1);
 }
 
 /**************************************************************************/
@@ -49,8 +50,10 @@ void ina219_WriteRegister(uint8_t reg, uint16_t *value)
 void ina219_ReadRegister(uint8_t reg, uint16_t *value)
 {
 	uint8_t i2c_temp[2];
-	HAL_I2C_Mem_Read(&hi2c1, ina219_i2caddr<<1, (uint16_t)reg, 1,i2c_temp, 2, 1);
+	HAL_I2C_Mem_Read_IT(&hi2c1, ina219_i2caddr<<1, (uint16_t)reg, 1,i2c_temp, 2);
+	HAL_Delay(1);
 	*value = ((uint16_t)i2c_temp[0]<<8 )|(uint16_t)i2c_temp[1];
+	
 }
 
 /**************************************************************************/
